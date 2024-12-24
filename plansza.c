@@ -23,7 +23,7 @@ int count_mines(char **tab,int a,int b,int i,int j){
     }
     return sum;
 }
-int main(){
+char** plansza_create(){
     srand(time(NULL));
     int a, b;
     printf("Podaj rozmiar planszy \n");
@@ -49,9 +49,5 @@ int main(){
             }
         }
     print_map(tab,a,b);
-    for (int i = 0; i < a; i++) {
-        free(tab[i]);
-    }
-    free(tab);
-    return 0;
+    return tab;
 }
