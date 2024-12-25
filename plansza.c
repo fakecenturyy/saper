@@ -33,7 +33,7 @@ char** plansza_create(int a, int b, int mine_count){
         int x,y;
         x=rand()%a;
         y=rand()%b;
-        if (tab[x][y]!='*'){
+        if (tab[x][y]!='*'&&(x+y)!=0){
              tab[x][y]='*';
              mine_count--;
              }
