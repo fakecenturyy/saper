@@ -23,31 +23,8 @@ int count_mines(char **tab,int a,int b,int i,int j){
     }
     return sum;
 }
-char** plansza_create(){
+char** plansza_create(int a, int b, int mine_count){
     srand(time(NULL));
-    int a, b, mine_count,lvl;
-    printf("Wybierz pozmiom trudnosci \n 1-latwy    2-sredni    3-trudny    4-wlasny\n");
-    scanf("%d", &lvl);
-    switch(lvl){
-        case 1:
-            a=9;
-            b=9;
-            mine_count=10;
-            break;
-        case 2:
-            a=16;
-            b=16;
-            mine_count=40;
-            break;
-        case 3:
-            a=16;
-            b=30;
-            mine_count=99;
-            break;
-        case 4:
-            printf("Podaj liczbe kolumn, wierszy oraz min\n");
-            scanf("%d %d %d",&a,&b,&mine_count);
-    }
     char **tab = (char **)malloc(a * sizeof(char *));
     for (int i = 0; i < a; i++) {
         tab[i] = (char *)malloc(b * sizeof(char));
