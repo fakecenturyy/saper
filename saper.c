@@ -1,11 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "plansza.h"
-#include <print_map.h>
-struct gracz{
-    int score;
-    char name;
-}
+#include "print_map.h"
+#include "game.h"
 int main(){
     int a, b, mine_count,lvl;
     printf("Wybierz pozmiom trudnosci \n 1-latwy    2-sredni    3-trudny    4-wlasny\n");
@@ -30,7 +27,8 @@ int main(){
             printf("Podaj liczbe kolumn, wierszy oraz min\n");
             scanf("%d %d %d",&a,&b,&mine_count);
     }
-    char plansza=plansza_create(a,b,mine_count);
-    print_map(plansza,a,b);
-    return 0;
-}
+    char **rplansza=plansza_create(a,b,mine_count);
+    int score;
+    score=game(rplansza,a,b,mine_count,lvl);
+
+    return 0;}
