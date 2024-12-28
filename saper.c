@@ -3,6 +3,8 @@
 #include "plansza.h"
 #include "print_map.h"
 #include "game.h"
+#include <unistd.h>
+#include <process.h>
 void print_usage(const char *prog_name) {
     printf("Usage: %s [-l poziom] [-a rzedy] [-b kolumny] [-m miny] [-n nazwa]\n", prog_name);
     printf("  -l level   Poziom trudnosci (1: latwy, 2: sredni, 3: trudny, 4: wlasny)\n");
