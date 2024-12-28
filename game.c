@@ -10,7 +10,7 @@ void reveal_all_mines(char **rplansza, char **gplansza,int a, int b){
     }
 }
 void flood_fill(char **rplansza, char **gplansza, int a, int b,int x, int y){
-    if(x>a||x<0||x>b||x<0)  return;
+    if(x>=a||x<0||x>=b||y<0)  return;
     if(gplansza[x][y]!='.')   return;
     if (rplansza[x][y] !='0')  {
         gplansza[x][y]=rplansza[x][y];
@@ -35,7 +35,7 @@ int check_score(char **rplansza,char **gplansza,int a, int b,int mine_count,int 
     int score=0;
     for(int i=0; i<a;i++){
         for (int j=0;j<b;j++){
-            if (rplansza[i][j]!=gplansza[i][j]) score++;
+            if (rplansza[i][j]==gplansza[i][j]) score++;
         }
     }
     score-=mine_count;
@@ -55,49 +55,68 @@ int game(char **rplansza,int a, int b,int mine_count,int lvl){
     }
     bool gg=false;
     int x,y;
+    char t;
     while (!gg){
-        printf("Input: \n");
-         if (scanf("%d %d", &x, &y) != 2) {
-            printf("Invalid input. Please enter two integers.\n");
+        printf("Input (format: r,x,y or f,x,y): \n");
+        if (scanf(" %c,%d,%d", &t, &x, &y) != 3) {
+            printf("Podaj dobre dane\n");
             while (getchar() != '\n'); // Clear the input buffer
             continue;
         }
         x-=1;
         y-=1;
-        if(x>a||x<0||x>b||x<0){
+        if (x >= a || x < 0 || y >= b || y < 0) {
             printf("Podaj poprawne wspolrzedne pola \n");
-            scanf("%d, %d ",&x,&y);
+            continue;
         }
-        switch (rplansza[x][y]){
-            case 'f':{
-            print_map(gplansza,a,b);
+        switch (t){
+            
+            case 'r':{
+            if( gplansza[x][y]=='f'){
                 printf("usun flage aby odkryc pole \n");
-                break;}
-            case '*':{
-                reveal_all_mines(rplansza,gplansza,a,b);
-                print_map(gplansza,a,b);
-                printf("PRZEGRANA\n");
-                gg=true;
+                    break;}
+            switch (rplansza[x][y]){
+                case '*':{
+                    reveal_all_mines(rplansza,gplansza,a,b);
+                    printf("PRZEGRANA\n");
+                    gg=true;
+                    break;
+                }
+                case '0':{
+                    flood_fill(rplansza,gplansza,a,b,x,y);
+                    break;
+                }
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':{
+                    gplansza[x][y]=rplansza[x][y];
+                }
+                }
                 break;
             }
-            case '0':{
-                flood_fill(rplansza,gplansza,a,b,x,y);
-                print_map(gplansza,a,b);
+            case 'f':{
+                if (gplansza[x][y]=='f'){
+                    gplansza[x][y]='.';
+                }
+                else
+                {
+                if (gplansza[x][y] == '.') {
+                    gplansza[x][y] = 'f';
+                }
+                }
                 break;
             }
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':{
-                gplansza[x][y]=rplansza[x][y];
-                print_map(gplansza,a,b);
-            }
-            }
-        check_for_win(rplansza,gplansza,a,b,mine_count);
+        }
+        print_map(gplansza,a,b);
+        if (!check_for_win(rplansza, gplansza, a, b, mine_count)) {
+            printf("WYGRANA\n");
+            gg = true;
+        }
         }
     int score;
     score=check_score(rplansza,gplansza,a,b,mine_count,lvl) ;
