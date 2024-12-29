@@ -15,18 +15,18 @@ int count_mines(char **tab,int a,int b,int i,int j){
     }
     return sum;
 }
-char** plansza_create(int a, int b, int mine_count){
+char** plansza_create(int a, int b, int mine_count,int x,int y){
     srand(time(NULL));
     char **tab = (char **)malloc(a * sizeof(char *));
     for (int i = 0; i < a; i++) {
         tab[i] = (char *)malloc(b * sizeof(char));
     }
     while(mine_count>0){
-        int x,y;
-        x=rand()%a;
-        y=rand()%b;
-        if (tab[x][y]!='*'&&(x+y)!=0){
-             tab[x][y]='*';
+        int c,d;
+        c=rand()%a;
+        d=rand()%b;
+        if (tab[c][d]!='*'&& !(c == x && d == y)){
+             tab[c][d]='*';
              mine_count--;
              }
     }

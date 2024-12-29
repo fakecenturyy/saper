@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "print_map.h"
+#include "plansza.h"
 #include <stdbool.h>
 void reveal_all_mines(char **rplansza, char **gplansza,int a, int b){
     for(int i=0; i<a;i++){
@@ -42,7 +43,7 @@ int check_score(char **rplansza,char **gplansza,int a, int b,int mine_count,int 
     score*=lvl;
     return score;
 }
-int game(char **rplansza,int a, int b,int mine_count,int lvl){
+int game(int a, int b,int mine_count,int lvl){
     if (lvl==4) lvl=1;
     char **gplansza = (char **)malloc(a * sizeof(char *));
     for (int i = 0; i < a; i++) {
@@ -56,21 +57,35 @@ int game(char **rplansza,int a, int b,int mine_count,int lvl){
     bool gg=false;
     int x,y;
     char t;
-    while (!gg){
-        printf("Input (format: r,x,y or f,x,y): \n");
-        if (scanf(" %c,%d,%d", &t, &x, &y) != 3) {
+    int ruch=0;
+    printf("Input (format: r x y or f x y): \n");
+        if (scanf(" %c %d %d", &t, &y, &x) != 3) {
             printf("Podaj dobre dane\n");
             while (getchar() != '\n'); // Clear the input buffer
-            continue;
         }
         x-=1;
         y-=1;
-        if (x >= a || x < 0 || y >= b || y < 0) {
+        while (x >= a || x < 0 || y >= b || y < 0) {
             printf("Podaj poprawne wspolrzedne pola \n");
-            continue;
+            scanf(" %c,%d,%d", &t, &y, &x);} 
+    char **rplansza=plansza_create(a,b,mine_count,x,y);
+    while (!gg){
+        if(ruch!=0){
+            printf("Input (format: r x y or f x y): \n");
+            if (scanf(" %c %d %d", &t, &y, &x) != 3) {
+                printf("Podaj dobre dane\n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
+            x-=1;
+            y-=1;
+            if (x >= a || x < 0 || y >= b || y < 0) {
+                printf("Podaj poprawne wspolrzedne pola \n");
+                continue;
+            }
         }
+        ruch++;
         switch (t){
-            
             case 'r':{
             if( gplansza[x][y]=='f'){
                 printf("usun flage aby odkryc pole \n");
@@ -81,7 +96,7 @@ int game(char **rplansza,int a, int b,int mine_count,int lvl){
                     printf("PRZEGRANA\n");
                     gg=true;
                     break;
-                }
+                 }
                 case '0':{
                     flood_fill(rplansza,gplansza,a,b,x,y);
                     break;
@@ -95,6 +110,7 @@ int game(char **rplansza,int a, int b,int mine_count,int lvl){
                 case '7':
                 case '8':{
                     gplansza[x][y]=rplansza[x][y];
+                    break;
                 }
                 }
                 break;
