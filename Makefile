@@ -1,1 +1,1 @@
-gcc saper.c plansza.c   game.c  print_map.c -o  saper
+gcc saper.c plansza.c game.c print_map.c -o saper

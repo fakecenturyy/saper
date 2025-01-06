@@ -23,15 +23,6 @@ void flood_fill(char **rplansza, char **gplansza, int a, int b,int x, int y){
         flood_fill(rplansza, gplansza, a, b, x + dx[i], y + dy[i]);
     }
 }
-bool check_for_win(char **rplansza,char **gplansza,int a, int b,int mine_count){
-    int check=0;
-    for(int i=0; i<a;i++){
-        for (int j=0;j<b;j++){
-            if (rplansza[i][j]!=gplansza[i][j])    check++;
-        }
-    }
-    return (check=mine_count);
-}
 int check_score(char **rplansza,char **gplansza,int a, int b,int mine_count,int lvl){
     int score=0;
     for(int i=0; i<a;i++){
@@ -44,6 +35,7 @@ int check_score(char **rplansza,char **gplansza,int a, int b,int mine_count,int 
     return score;
 }
 int game(int a, int b,int mine_count,int lvl){
+  int score;
     if (lvl==4) lvl=1;
     char **gplansza = (char **)malloc(a * sizeof(char *));
     for (int i = 0; i < a; i++) {
@@ -129,12 +121,13 @@ int game(int a, int b,int mine_count,int lvl){
             }
         }
         print_map(gplansza,a,b);
-        if (!check_for_win(rplansza, gplansza, a, b, mine_count)) {
+        score=check_score(rplansza,gplansza,a,b,mine_count,lvl);
+        printf("\nAktualny wynik: %d ",score);
+        if (score+mine_count==(a*b)) {
             printf("WYGRANA\n");
             gg = true;
         }
         }
-    int score;
     score=check_score(rplansza,gplansza,a,b,mine_count,lvl) ;
     return score;
     }
