@@ -30,7 +30,6 @@ int check_score(char **rplansza,char **gplansza,int a, int b,int mine_count,int 
             if (rplansza[i][j]==gplansza[i][j]) score++;
         }
     }
-    score-=mine_count;
     score*=lvl;
     return score;
 }
