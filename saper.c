@@ -29,7 +29,10 @@ int main(int argc, char *argv[]) {
 
     if (lvl == 0) {
         printf("Wybierz poziom trudnosci \n 1-latwy    2-sredni    3-trudny    4-wlasny\n");
-        scanf("%d", &lvl);
+        if (scanf("%d", &lvl) != 1 || lvl < 1 || lvl > 4) {
+            printf("Nieprawidlowy poziom trudnosci. Sprobuj ponownie.\n");
+            return EXIT_FAILURE;
+        }
     }
 
     switch (lvl) {
@@ -49,13 +52,24 @@ int main(int argc, char *argv[]) {
             mine_count = 99;
             break;
         case 4:
-            if (a == 0 || b == 0 || mine_count == 0) {
-                printf("Podaj liczbe kolumn, wierszy oraz min\n");
-                scanf("%d %d %d", &a, &b, &mine_count);
+            printf("Podaj liczbe wierszy: ");
+            if (scanf("%d", &a) != 1 || a <= 0) {
+                printf("Nieprawidlowa liczba wierszy. Sprobuj ponownie.\n");
+                return EXIT_FAILURE;
+            }
+            printf("Podaj liczbe kolumn: ");
+            if (scanf("%d", &b) != 1 || b <= 0) {
+                printf("Nieprawidlowa liczba kolumn. Sprobuj ponownie.\n");
+                return EXIT_FAILURE;
+            }
+            printf("Podaj liczbe min: ");
+            if (scanf("%d", &mine_count) != 1 || mine_count <= 0 || mine_count >= a * b) {
+                printf("Nieprawidlowa liczba min. Sprobuj ponownie.\n");
+                return EXIT_FAILURE;
             }
             break;
         default:
-            printf("Nieprawidlowy poziom trudnosci\n");
+            printf("Nieprawidlowy poziom trudnosci. Sprobuj ponownie.\n");
             return EXIT_FAILURE;
     }
 
